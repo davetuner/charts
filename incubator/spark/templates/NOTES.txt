@@ -5,3 +5,4 @@
   
   export SPARK_SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "master-fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
   echo http://$SPARK_SERVICE_IP:{{ .Values.WebUi.ServicePort }}
+  

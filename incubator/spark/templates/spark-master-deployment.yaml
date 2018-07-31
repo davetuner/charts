@@ -64,4 +64,3 @@ spec:
             value: {{ .Values.Master.ServicePort | quote }}
           - name: SPARK_MASTER_WEBUI_PORT
             value: {{ .Values.WebUi.ContainerPort | quote }}            
-
