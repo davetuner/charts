@@ -45,6 +45,7 @@ spec:
     spec:
       containers:
         - image: "{{ .Values.Master.Image }}"
+          imagePullPolicy: "{{ .Values.Master.ImagePullPolicy }}"
           name: {{ template "master-fullname" . }}
           ports:
             - containerPort: {{ .Values.Master.ContainerPort }}
@@ -63,4 +64,13 @@ spec:
           - name: SPARK_MASTER_PORT
             value: {{ .Values.Master.ServicePort | quote }}
           - name: SPARK_MASTER_WEBUI_PORT
-            value: {{ .Values.WebUi.ContainerPort | quote }}            
+            value: {{ .Values.WebUi.ContainerPort | quote }}    
+          - name: AWS_ACCESS_KEY_ID
+            value: {{ .Values.Aws.AwsAccessKeyId }}
+          - name: AWS_SECRET_ACCESS_KEY
+            value: {{ .Values.Aws.AwsSecretAccessKey }}    
+          - name: PYSPARK_PYTHON
+            value: {{ .Values.Pyspark.PythonVersion }} 
+          - name: PYSPARK_DRIVER_PYTHON
+            value: {{ .Values.Pyspark.PythonVersion }} 
+

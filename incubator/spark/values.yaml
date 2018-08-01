@@ -5,10 +5,18 @@
 
 Spark:
   Path: "/spark"
+  
+Aws:
+  AwsAccessKeyId: YOUR_AWS_ACCESS_KEY
+  AwsSecretAccessKey: YOUR_AWS_SECRET_KEY
+
+Pyspark:
+  PythonVersion: python3
 
 Master:
   Name: master
-  Image: bde2020/spark-master:2.3.1-hadoop2.7
+  Image: davetuner/spark-master:2.3.1-hadoop2.7
+  ImagePullPolicy: Always
   Replicas: 1
   Component: "spark-master"
   Cpu: "100m"
@@ -26,7 +34,8 @@ WebUi:
 
 Worker:
   Name: worker
-  Image: bde2020/spark-worker:2.3.1-hadoop2.7
+  Image: davetuner/spark-worker:2.3.1-hadoop2.7
+  ImagePullPolicy: Always
   Replicas: 3
   Component: "spark-worker"
   Cpu: "100m"
@@ -42,3 +51,4 @@ Worker:
     Enabled: true
   ReplicasMax: 10
   CpuTargetPercentage: 50
+

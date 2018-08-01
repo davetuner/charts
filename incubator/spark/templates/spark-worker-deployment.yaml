@@ -41,6 +41,7 @@ spec:
     spec:
       containers:
         - image: "{{ .Values.Worker.Image }}"
+          imagePullPolicy: "{{ .Values.Worker.ImagePullPolicy }}"
           name: {{ template "worker-fullname" . }}
           ports:
             - containerPort: 8081
@@ -63,3 +64,13 @@ spec:
             value: {{ default "1g" .Values.Worker.ExecutorMemory | quote }}
           - name: SPARK_WORKER_WEBUI_PORT
             value: {{ .Values.WebUi.ContainerPort | quote }}
+          - name: AWS_ACCESS_KEY_ID
+            value: {{ .Values.Aws.AwsAccessKeyId }}
+          - name: AWS_SECRET_ACCESS_KEY
+            value: {{ .Values.Aws.AwsSecretAccessKey }}
+          - name: PYSPARK_PYTHON
+            value: {{ .Values.Pyspark.PythonVersion }} 
+          - name: PYSPARK_DRIVER_PYTHON
+            value: {{ .Values.Pyspark.PythonVersion }} 
+
+
