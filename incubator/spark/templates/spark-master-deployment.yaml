@@ -12,13 +12,18 @@ spec:
   - name: spark-service
     port: {{ .Values.Master.ServicePort }}
     targetPort: {{ .Values.Master.ContainerPort }}
-  - name: spark-webui
-    port: {{ .Values.WebUi.ServicePort }}
-    targetPort: {{ .Values.WebUi.ContainerPort }}
+  # - name: spark-webui
+  #   port: {{ .Values.WebUi.ServicePort }}
+  #   targetPort: {{ .Values.WebUi.ContainerPort }}
+  - name: spark-ui-proxy
+    port: {{ .Values.SparkUiProxy.ServicePort }}
+    targetPort: {{ .Values.SparkUiProxy.ContainerPort }}
   selector:
     component: "{{ .Release.Name }}-{{ .Values.Master.Component }}"
   type: {{ .Values.Master.ServiceType }}
 ---
+#apiVersion: apps/v1
+#kind: StatefulSet
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -29,6 +34,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: "{{ .Release.Name }}-{{ .Values.Master.Component }}"
 spec:
+  #serviceName: {{ template "master-fullname" . }}
   replicas: {{ default 1 .Values.Master.Replicas }}
   strategy:
     type: RollingUpdate
@@ -44,23 +50,23 @@ spec:
         component: "{{ .Release.Name }}-{{ .Values.Master.Component }}"
     spec:
       containers:
-        - image: "{{ .Values.Master.Image }}"
+        - name: {{ template "master-fullname" . }}
+          image: "{{ .Values.Master.Image }}"
           imagePullPolicy: "{{ .Values.Master.ImagePullPolicy }}"
-          name: {{ template "master-fullname" . }}
           ports:
-            - containerPort: {{ .Values.Master.ContainerPort }}
-            - containerPort: {{ .Values.WebUi.ContainerPort }}
+            # - containerPort: {{ .Values.Master.ContainerPort }}
+            - containerPort: {{ .Values.WebUi.ContainerPort }}       
           resources:
             requests:
               cpu: "{{ .Values.Master.Cpu }}"
               memory: "{{ .Values.Master.Memory }}"
           env:
-          - name: INIT_DAEMON_STEP
-            value: setup_spark
+          # - name: INIT_DAEMON_STEP
+          #   value: setup_spark
           - name: SPARK_DAEMON_MEMORY
             value: {{ default "1g" .Values.Master.DaemonMemory | quote }}
-          - name: SPARK_MASTER_HOST
-            value: {{ template "master-fullname" . }}
+          # - name: SPARK_MASTER_HOST
+          #   value: {{ template "master-fullname" . }}
           - name: SPARK_MASTER_PORT
             value: {{ .Values.Master.ServicePort | quote }}
           - name: SPARK_MASTER_WEBUI_PORT
@@ -73,4 +79,23 @@ spec:
             value: {{ .Values.Pyspark.PythonVersion }} 
           - name: PYSPARK_DRIVER_PYTHON
             value: {{ .Values.Pyspark.PythonVersion }} 
+
+        - name: {{ template "spark-ui-proxy-fullname" . }}
+          image: "{{ .Values.SparkUiProxy.Image }}"
+          imagePullPolicy: "{{ .Values.SparkUiProxy.ImagePullPolicy }}"
+          ports:
+            # - containerPort: {{ .Values.Master.ContainerPort }}            
+            - containerPort: {{ .Values.SparkUiProxy.ContainerPort }}
+          resources:
+            requests:
+              cpu: "{{ .Values.SparkUiProxy.Cpu }}"
+              memory: "{{ .Values.SparkUiProxy.Memory }}"
+          env:
+          - name: SERVER_PORT
+            value: {{ .Values.SparkUiProxy.ContainerPort | quote }}
+          - name: SPARK_MASTER_HOST
+            value: "localhost"
+          - name: SPARK_MASTER_PORT
+            value: {{ .Values.WebUi.ContainerPort | quote }} 
+
 

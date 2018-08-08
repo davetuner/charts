@@ -25,7 +25,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "zeppelin-fullname" -}}
-{{- $name := default .Chart.Name .Values.Zeppelin.Name -}}
+{{- define "spark-ui-proxy-fullname" -}}
+{{- $name := default .Chart.Name .Values.SparkUiProxy.Name -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

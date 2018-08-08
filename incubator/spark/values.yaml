@@ -7,8 +7,8 @@ Spark:
   Path: "/spark"
   
 Aws:
-  AwsAccessKeyId: YOUR_AWS_ACCESS_KEY
-  AwsSecretAccessKey: YOUR_AWS_SECRET_KEY
+  AwsAccessKeyId: AKIAIAWGG3K5YFDLMITQ
+  AwsSecretAccessKey: XxThN9qmMfEWGqb9Yy5815CLqVnH5BeNwAk0yBd2
 
 Pyspark:
   PythonVersion: python3
@@ -46,9 +46,26 @@ Worker:
   # DaemonMemory: 1g
   # Set how much total memory workers have to give executors
   # ExecutorMemory: 1g
-  ServiceType: LoadBalancer
+  ServiceType: ClusterIP
   Autoscaling:
     Enabled: true
   ReplicasMax: 10
   CpuTargetPercentage: 50
+
+SparkUiProxy:
+  Name: uiproxy
+  Image: davetuner/spark-ui-proxy:0.1
+  ImagePullPolicy: Always
+  Replicas: 1
+  Component: "spark-ui-proxy"
+  Cpu: "100m"
+  Memory: "512Mi"
+  ServicePort: 80
+  ContainerPort: 80
+  # Set Worker JVM memory. Default 1g
+  # DaemonMemory: 1g
+  # Set how much total memory workers have to give executors
+  # ExecutorMemory: 1g
+  # ServiceType: LoadBalancer
+  
 

@@ -15,6 +15,8 @@ spec:
     component: "{{ .Release.Name }}-{{ .Values.Worker.Component }}"
   type: {{ .Values.Worker.ServiceType }}
 ---
+#apiVersion: apps/v1
+#kind: StatefulSet
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -25,6 +27,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: "{{ .Release.Name }}-{{ .Values.Worker.Component }}"
 spec:
+  #serviceName: {{ template "worker-fullname" . }}
   replicas: {{ default 1 .Values.Worker.Replicas }}
   strategy:
     type: RollingUpdate
@@ -39,12 +42,13 @@ spec:
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         component: "{{ .Release.Name }}-{{ .Values.Worker.Component }}"
     spec:
+      serviceName: {{ template "worker-fullname" . }}
       containers:
         - image: "{{ .Values.Worker.Image }}"
           imagePullPolicy: "{{ .Values.Worker.ImagePullPolicy }}"
           name: {{ template "worker-fullname" . }}
           ports:
-            - containerPort: 8081
+            - containerPort: {{ .Values.WebUi.ContainerPort }}
           resources:
             requests:
               cpu: "{{ .Values.Worker.Cpu }}"
@@ -54,8 +58,6 @@ spec:
             value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
           - name: INIT_DAEMON_STEP
             value: setup_spark
-          - name: SPARK_MASTER
-            value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
           - name: SPARK_MASTER_HOST
             value: {{ template "master-fullname" . }}
           - name: SPARK_DAEMON_MEMORY
