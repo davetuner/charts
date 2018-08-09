@@ -7,8 +7,8 @@ Spark:
   Path: "/spark"
   
 Aws:
-  AwsAccessKeyId: AKIAIAWGG3K5YFDLMITQ
-  AwsSecretAccessKey: XxThN9qmMfEWGqb9Yy5815CLqVnH5BeNwAk0yBd2
+  AwsAccessKeyId: YOUR_AWS_ACCESS_KEY
+  AwsSecretAccessKey: YOUR_AWS_SECRET_KEY
 
 Pyspark:
   PythonVersion: python3
