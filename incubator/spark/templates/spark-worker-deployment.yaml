@@ -15,8 +15,6 @@ spec:
     component: "{{ .Release.Name }}-{{ .Values.Worker.Component }}"
   type: {{ .Values.Worker.ServiceType }}
 ---
-#apiVersion: apps/v1
-#kind: StatefulSet
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -27,7 +25,6 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: "{{ .Release.Name }}-{{ .Values.Worker.Component }}"
 spec:
-  #serviceName: {{ template "worker-fullname" . }}
   replicas: {{ default 1 .Values.Worker.Replicas }}
   strategy:
     type: RollingUpdate
@@ -63,7 +60,7 @@ spec:
           - name: SPARK_DAEMON_MEMORY
             value: {{ default "1g" .Values.Worker.DaemonMemory | quote }}
           - name: SPARK_WORKER_MEMORY
-            value: {{ default "1g" .Values.Worker.ExecutorMemory | quote }}
+            value: {{ default "1g" .Values.Worker.WorkerMemory | quote }}
           - name: SPARK_WORKER_WEBUI_PORT
             value: {{ .Values.WebUi.ContainerPort | quote }}
           - name: AWS_ACCESS_KEY_ID

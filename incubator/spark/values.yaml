@@ -5,10 +5,6 @@
 
 Spark:
   Path: "/spark"
-  
-Aws:
-  AwsAccessKeyId: YOUR_AWS_ACCESS_KEY
-  AwsSecretAccessKey: YOUR_AWS_SECRET_KEY
 
 Pyspark:
   PythonVersion: python3
@@ -23,14 +19,18 @@ Master:
   Memory: "512Mi"
   ServicePort: 7077
   ContainerPort: 7077
-  # Set Master JVM memory. Default 1g
-  # DaemonMemory: 1g
-  ServiceType: LoadBalancer
+  DaemonMemory: 2g
+  ServiceType: ClusterIP
 
 WebUi:
   Name: webui
   ServicePort: 8080
   ContainerPort: 8080
+
+Rest:
+  Name: rest
+  ServicePort: 6066
+  ContainerPort: 6066
 
 Worker:
   Name: worker
@@ -42,10 +42,8 @@ Worker:
   Memory: "512Mi"
   ServicePort: 8080
   ContainerPort: 8080
-  # Set Worker JVM memory. Default 1g
-  # DaemonMemory: 1g
-  # Set how much total memory workers have to give executors
-  # ExecutorMemory: 1g
+  DaemonMemory: 2g
+  WorkerMemory: 2g
   ServiceType: ClusterIP
   Autoscaling:
     Enabled: true
@@ -62,10 +60,5 @@ SparkUiProxy:
   Memory: "512Mi"
   ServicePort: 80
   ContainerPort: 80
-  # Set Worker JVM memory. Default 1g
-  # DaemonMemory: 1g
-  # Set how much total memory workers have to give executors
-  # ExecutorMemory: 1g
-  # ServiceType: LoadBalancer
-  
 
+  
