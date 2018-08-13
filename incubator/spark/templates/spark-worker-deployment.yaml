@@ -51,25 +51,31 @@ spec:
               cpu: "{{ .Values.Worker.Cpu }}"
               memory: "{{ .Values.Worker.Memory }}"
           env:
-          - name: SPARK_MASTER
-            value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
-          - name: INIT_DAEMON_STEP
-            value: setup_spark
-          - name: SPARK_MASTER_HOST
-            value: {{ template "master-fullname" . }}
-          - name: SPARK_DAEMON_MEMORY
-            value: {{ default "1g" .Values.Worker.DaemonMemory | quote }}
-          - name: SPARK_WORKER_MEMORY
-            value: {{ default "1g" .Values.Worker.WorkerMemory | quote }}
-          - name: SPARK_WORKER_WEBUI_PORT
-            value: {{ .Values.WebUi.ContainerPort | quote }}
-          - name: AWS_ACCESS_KEY_ID
-            value: {{ .Values.Aws.AwsAccessKeyId }}
-          - name: AWS_SECRET_ACCESS_KEY
-            value: {{ .Values.Aws.AwsSecretAccessKey }}
-          - name: PYSPARK_PYTHON
-            value: {{ .Values.Pyspark.PythonVersion }} 
-          - name: PYSPARK_DRIVER_PYTHON
-            value: {{ .Values.Pyspark.PythonVersion }} 
+            - name: SPARK_MASTER
+              value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
+            - name: INIT_DAEMON_STEP
+              value: setup_spark
+            - name: SPARK_MASTER_HOST
+              value: {{ template "master-fullname" . }}
+            - name: SPARK_DAEMON_MEMORY
+              value: {{ default "1g" .Values.Worker.DaemonMemory | quote }}
+            - name: SPARK_WORKER_MEMORY
+              value: {{ default "1g" .Values.Worker.WorkerMemory | quote }}
+            - name: SPARK_WORKER_WEBUI_PORT
+              value: {{ .Values.WebUi.ContainerPort | quote }}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.Aws.SecretName }}
+                  key: aws_secret_access_key
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.Aws.SecretName }}
+                  key: aws_access_key_id
+            - name: PYSPARK_PYTHON
+              value: {{ .Values.Pyspark.PythonVersion }} 
+            - name: PYSPARK_DRIVER_PYTHON
+              value: {{ .Values.Pyspark.PythonVersion }} 
 
 

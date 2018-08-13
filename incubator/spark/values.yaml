@@ -9,6 +9,15 @@ Spark:
 Pyspark:
   PythonVersion: python3
 
+Azure:
+  SecretName: azure-keys-berger
+
+Aws:
+  SecretName: aws-keys-berger
+
+Gcs:
+  SecretName: gcp-creds-berger
+
 Master:
   Name: master
   Image: davetuner/spark-master:2.3.1-hadoop2.7

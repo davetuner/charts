@@ -58,21 +58,26 @@ spec:
               cpu: "{{ .Values.Master.Cpu }}"
               memory: "{{ .Values.Master.Memory }}"
           env:
-          - name: SPARK_DAEMON_MEMORY
-            value: {{ default "1g" .Values.Master.DaemonMemory | quote }}
-          - name: SPARK_MASTER_PORT
-            value: {{ .Values.Master.ServicePort | quote }}
-          - name: SPARK_MASTER_WEBUI_PORT
-            value: {{ .Values.WebUi.ContainerPort | quote }}    
-          - name: AWS_ACCESS_KEY_ID
-            value: {{ .Values.Aws.AwsAccessKeyId }}
-          - name: AWS_SECRET_ACCESS_KEY
-            value: {{ .Values.Aws.AwsSecretAccessKey }}
-          - name: PYSPARK_PYTHON
-            value: {{ .Values.Pyspark.PythonVersion }} 
-          - name: PYSPARK_DRIVER_PYTHON
-            value: {{ .Values.Pyspark.PythonVersion }}
-
+            - name: SPARK_DAEMON_MEMORY
+              value: {{ default "1g" .Values.Master.DaemonMemory | quote }}
+            - name: SPARK_MASTER_PORT
+              value: {{ .Values.Master.ServicePort | quote }}
+            - name: SPARK_MASTER_WEBUI_PORT
+              value: {{ .Values.WebUi.ContainerPort | quote }}  
+            - name: PYSPARK_PYTHON
+              value: {{ .Values.Pyspark.PythonVersion }} 
+            - name: PYSPARK_DRIVER_PYTHON
+              value: {{ .Values.Pyspark.PythonVersion }}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.Aws.SecretName }}
+                  key: aws_secret_access_key
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.Aws.SecretName }}
+                  key: aws_access_key_id
         - name: {{ template "spark-ui-proxy-fullname" . }}
           image: "{{ .Values.SparkUiProxy.Image }}"
           imagePullPolicy: "{{ .Values.SparkUiProxy.ImagePullPolicy }}"
@@ -83,11 +88,13 @@ spec:
               cpu: "{{ .Values.SparkUiProxy.Cpu }}"
               memory: "{{ .Values.SparkUiProxy.Memory }}"
           env:
-          - name: SERVER_PORT
-            value: {{ .Values.SparkUiProxy.ContainerPort | quote }}
-          - name: SPARK_MASTER_HOST
-            value: "localhost"
-          - name: SPARK_MASTER_PORT
-            value: {{ .Values.WebUi.ContainerPort | quote }} 
+            - name: SERVER_PORT
+              value: {{ .Values.SparkUiProxy.ContainerPort | quote }}
+            - name: SPARK_MASTER_HOST
+              value: "localhost"
+            - name: SPARK_MASTER_PORT
+              value: {{ .Values.WebUi.ContainerPort | quote }} 
+
+
 
 
