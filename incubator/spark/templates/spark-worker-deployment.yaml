@@ -51,6 +51,8 @@ spec:
               cpu: "{{ .Values.Worker.Cpu }}"
               memory: "{{ .Values.Worker.Memory }}"
           env:
+            - name: SPARK_HOME
+              value: /spark
             - name: SPARK_MASTER
               value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
             - name: INIT_DAEMON_STEP
@@ -77,5 +79,18 @@ spec:
               value: {{ .Values.Pyspark.PythonVersion }} 
             - name: PYSPARK_DRIVER_PYTHON
               value: {{ .Values.Pyspark.PythonVersion }} 
+          volumeMounts:
+            - name: hadoop-vol
+              mountPath: /hadoop
+            - name: gcs-creds-vol
+              mountPath: /gcs
+
+      volumes:
+        - name: hadoop-vol
+          secret:
+            secretName: {{ .Values.Hadoop.SecretName }}
+        - name: gcs-creds-vol
+          secret:
+            secretName: {{ .Values.Gcs.SecretName }}
 
 
