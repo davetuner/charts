@@ -2,8 +2,6 @@
 
   Monitor the {{ template "master-fullname" . }} deploy with 'kubectl get deploy --namespace {{ .Release.Namespace }} {{ template "master-fullname" . }} -w'
 
-  
-
-  Once deploy {{ template "master-fullname" . }} shows as available you can connect to the Spark UI via port forwarding to localhose:9999 'kubectl port-forward svc/{{ template "master-fullname" . }} 9999:80'
+  Once deploy {{ template "master-fullname" . }} shows as available you can connect to the Spark UI via port forwarding to your localhost on port 9999 'kubectl port-forward svc/{{ template "master-fullname" . }} 9999:80'
 
   Go to http://localhost:9999/ for the Spark UI
