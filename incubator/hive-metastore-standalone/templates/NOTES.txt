@@ -1,0 +1,7 @@
+1. Connect to the metastore thrifserver:
+
+  Monitor the {{ template "thriftserver-fullname" . }} deploy with 'kubectl get deploy --namespace {{ .Release.Namespace }} {{ template "thriftserver-fullname" . }} -w'
+
+  Once deploy {{ template "thriftserver-fullname" . }} shows as available you can connect to it from outside of the cluster via port forwarding to your localhost on port 9999 'kubectl port-forward svc/{{ template "thriftserver-fullname" . }} 9999:9083'
+
+

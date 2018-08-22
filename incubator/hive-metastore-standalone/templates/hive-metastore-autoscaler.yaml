@@ -1,0 +1,23 @@
+{{- if .Values.ThriftServer.Autoscaling.Enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Release.Name }}-{{ .Values.ThriftServer.Component }}"
+  name: {{ template "thriftserver-fullname" . }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: {{ template "thriftserver-fullname" . }}
+  minReplicas: {{ .Values.ThriftServer.Replicas }}
+  maxReplicas: {{ .Values.ThriftServer.ReplicasMax }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: {{ .Values.ThriftServer.CpuTargetPercentage }}
+{{- end }}

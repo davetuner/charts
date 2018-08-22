@@ -1,0 +1,11 @@
+name: spark
+version: 0.1.0
+appVersion: 3.0.0
+description: Standalone hive metastore for running tools like Presto with no need of a full hadoop cluster.
+home: http://hive.apache.org/
+icon: http://hive.apache.org/images/hive_logo_medium.jpg
+sources:
+  - https://github.com/davetuner/docker-hive-metastore
+maintainers:
+  - name: davetuner
+    email: dave.tuner@gmail.com
