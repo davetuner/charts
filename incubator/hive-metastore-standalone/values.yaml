@@ -6,6 +6,12 @@
 Hive:
   SecretName: dan-hive-metastore-site
 
+Hadoop:
+  SecretName: dan-hadoop-core-site
+
+Gcs:
+  SecretName: dan-gcs-key
+
 ThriftServer:
   Name: hive-metastore
   Image: davetuner/hive-metastore:3.0.0

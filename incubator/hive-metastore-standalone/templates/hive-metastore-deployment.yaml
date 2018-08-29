@@ -55,15 +55,26 @@ spec:
               value: /hive_conf
             - name: METASTORE_CONF_DIR
               value: /hive_conf
-
+            - name: HADOOP_CONF_DIR
+              value: /hadoop_conf
           volumeMounts:
             - name: hive-vol
               mountPath: /hive_conf
+            - name: hadoop-vol
+              mountPath: /hadoop_conf
+            - name: gcs-creds-vol
+              mountPath: /gcs
 
       volumes:
         - name: hive-vol
           secret:
             secretName: {{ .Values.Hive.SecretName }}
+        - name: hadoop-vol
+          secret:
+            secretName: {{ .Values.Hadoop.SecretName }}
+        - name: gcs-creds-vol
+          secret:
+            secretName: {{ .Values.Gcs.SecretName }}
 
 
 
