@@ -27,6 +27,15 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "presto.worker" . }}
+        - name: catalog-volume
+          secret:
+            secretName: {{ .Values.Catalog.SecretName }}
+        - name: hadoop-vol
+          secret:
+            secretName: {{ .Values.Hadoop.SecretName }}
+        - name: gcs-creds-vol
+          secret:
+            secretName: {{ .Values.Gcs.SecretName }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -37,6 +46,12 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.server.config.path }}
               name: config-volume
+            - mountPath: {{ .Values.Catalog.Path }}
+              name: catalog-volume
+            - mountPath: /hadoop
+              name: hadoop-vol
+            - mountPath: /gcs
+              name: gcs-creds-vol
           livenessProbe:
             exec:
               command:

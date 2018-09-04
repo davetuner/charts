@@ -21,9 +21,9 @@ server:
         heapRegionSize: "32M"
 
 image:
-  repository: bivas/presto
-  tag: 0.196
-  pullPolicy: IfNotPresent
+  repository: davetuner/presto
+  tag: 0.209
+  pullPolicy: Always
 
 service:
   type: ClusterIP
@@ -45,3 +45,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+Catalog:
+  SecretName: dan-presto-catalog
+  Path: /presto/etc/catalog
+
+Hadoop:
+  SecretName: dan-hadoop-core-site
+
+Gcs:
+  SecretName: dan-gcs-key
+  
