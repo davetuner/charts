@@ -1,5 +1,4 @@
 server:
-  workers: 2
   node:
     environment: production
     dataDir: /presto/etc/data
@@ -55,4 +54,11 @@ Hadoop:
 
 Gcs:
   SecretName: dan-gcs-key
-  
+
+Worker:
+  Replicas: 2
+  Autoscaling:
+    Enabled: true
+  ReplicasMax: 10
+  CpuTargetPercentage: 50
+

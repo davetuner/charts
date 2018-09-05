@@ -1,4 +1,4 @@
-{{- if gt (int .Values.server.workers) 0 }}
+{{- if gt (int .Values.Worker.Replicas) 0 }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
     component: worker
 spec:
-  replicas: {{ .Values.server.workers }}
+  replicas: {{ .Values.Worker.Replicas }}
   selector:
     matchLabels:
       app: {{ template "presto.name" . }}
