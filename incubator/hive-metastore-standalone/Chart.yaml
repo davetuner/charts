@@ -1,4 +1,4 @@
-name: spark
+name: hive-metastore
 version: 0.1.0
 appVersion: 3.0.0
 description: Standalone hive metastore for running tools like Presto with no need of a full hadoop cluster.
