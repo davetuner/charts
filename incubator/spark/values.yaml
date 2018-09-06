@@ -9,6 +9,9 @@ Pyspark:
 Hadoop:
   SecretName: dan-hadoop-core-site
 
+Hive:
+  SecretName: dan-hive-site
+
 Aws:
   SecretName: aws-keys-berger
 
@@ -16,7 +19,7 @@ Gcs:
   SecretName: dan-gcs-key
 
 Master:
-  Name: master
+  Name: spark-master
   Image: davetuner/spark-master:2.3.1-hadoop2.7
   ImagePullPolicy: Always
   Component: "spark-master"
@@ -38,7 +41,7 @@ Rest:
   ContainerPort: 6066
 
 Worker:
-  Name: worker
+  Name: spark-worker
   Image: davetuner/spark-worker:2.3.1-hadoop2.7
   ImagePullPolicy: Always
   Replicas: 3
