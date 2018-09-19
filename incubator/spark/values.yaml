@@ -20,7 +20,7 @@ Gcs:
 
 Master:
   Name: spark-master
-  Image: davetuner/spark-master:2.3.1-hadoop2.7
+  Image: transformersreg11.azurecr.io/spark-master:2.3.1-hadoop2.7
   ImagePullPolicy: Always
   Component: "spark-master"
   Cpu: "100m"
@@ -42,7 +42,7 @@ Rest:
 
 Worker:
   Name: spark-worker
-  Image: davetuner/spark-worker:2.3.1-hadoop2.7
+  Image: transformersreg11.azurecr.io/spark-worker:2.3.1-hadoop2.7
   ImagePullPolicy: Always
   Replicas: 3
   Component: "spark-worker"
@@ -60,7 +60,7 @@ Worker:
 
 SparkUiProxy:
   Name: uiproxy
-  Image: davetuner/spark-ui-proxy:0.1
+  Image: transformersreg11.azurecr.io/spark-ui-proxy:0.1
   ImagePullPolicy: Always
   Replicas: 1
   Component: "spark-ui-proxy"

@@ -14,7 +14,7 @@ Gcs:
 
 ThriftServer:
   Name: hive-metastore
-  Image: davetuner/hive-metastore:3.0.0
+  Image: transformersreg11.azurecr.io/hive-metastore:3.0.0
   ImagePullPolicy: Always
   Replicas: 1
   Component: "hive-metastore"

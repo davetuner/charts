@@ -1,6 +1,6 @@
 server:
   node:
-    environment: production
+    environment: development
     dataDir: /presto/etc/data
   log:
     presto:
@@ -20,8 +20,8 @@ server:
         heapRegionSize: "32M"
 
 image:
-  repository: davetuner/presto
-  tag: 0.209
+  repository: transformersreg11.azurecr.io/presto
+  tag: 1.0.210
   pullPolicy: Always
 
 service:
